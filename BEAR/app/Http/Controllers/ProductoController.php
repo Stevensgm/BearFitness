@@ -35,18 +35,18 @@ class ProductoController extends Controller
 
         // filtrar por nombre
         if($request->filled('buscar')) {
-            $query->where('nombre', 'like', '%' . $request->buscar . '%');
+            $query->where('nombre', 'like', '%'.$request->buscar.'%');
         }
 
         // ordenar y paginar
-        $productos = $query->orderBy('id', 'desc')->paginate(4);
+        $productos = $query->orderBy('id', 'desc')->paginate(5);
 
         // mostrar la vista con los productos y las categorías
         return view('producto.index', compact('productos', 'categorias'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear un nuevo producto, incluyendo un select con las categorías disponibles.
      */
     public function create()
     {
@@ -60,7 +60,7 @@ class ProductoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo producto en la base de datos después de validar los datos del formulario y manejar la imagen subida.
      */
     public function store(ProductoRequest $request)
     {

@@ -14,8 +14,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
-        $categorias=Categoria::orderBy("id","DESC")->paginate(8);
+        // obtener las categorias ordenadas por id descendente y paginadas
+        $categorias=Categoria::orderBy("id","DESC")->paginate(5);
         return view("categoria.index",compact("categorias"));
     }
 
@@ -29,15 +29,17 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     *  Almacena una nueva categoría en la base de datos después de validar los datos del formulario.
      */
     public function store(CategoriaRequest $request)
     {
         //validar la informacion del formulario
         $datosValidos=$request->validated();
 
+        //crear la categoria con los datos validados
         $categoria=Categoria::create($datosValidos);
 
+        //redireccionar a la lista de categorias con un mensaje de exito
         return redirect()->route("categoria.index")->with('success','Categoria agragada correctamente');
     }
     /**
@@ -54,7 +56,7 @@ class CategoriaController extends Controller
     public function edit( Categoria $categoria)
     {
         //
-       // $categoria=Categoria::findOrFail($id);
+        $categoria=Categoria::findOrFail($id);
         return view("categoria.edit",["categoria"=>$categoria]);
 
     }

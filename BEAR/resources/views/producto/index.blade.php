@@ -12,13 +12,13 @@ Productos
     <nav class="nav-botones">
                
         {{-- formulario para filtros y busqueda --}}
-        <form action="{{route('producto.index')}} method='GET' class='form-filtros'">
+        <form action="{{route('producto.index')}}"  method="GET" class="form-filtros">
 
             {{--filtro por categoría --}}
             <select name="categoria" class="filtro-select">
                 <option value="">Categoria</option>
                 @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->id }}" {{ request('categoria') == $categoria->id? 'selected' : '' }}>
+                    <option value="{{ $categoria->id }}" {{ request('categoria') == $categoria->id? 'selected' : ''}}>
                         {{ $categoria->nombre }}
                     </option>
                 @endforeach
@@ -32,9 +32,11 @@ Productos
             </select>
 
             {{--filtro por nombre--}}
-            <input type="text" name="buscar" placeholder="Buscar producto..." value="{{ request('buscar') }}"
-            class="filtro-input">
-                <button type="submit" class="nav-link btn-filtro">Filtrar</button>       
+            <input type="text" name="buscar" placeholder="Buscar producto..." value="{{ request('buscar') }}" class="filtro-input">
+                <button type="submit" class="nav-link btn-filtro">Filtrar</button>
+                
+            {{-- borrar filtros --}}
+            <a href="{{ route('producto.index') }}" class="nav-link btn-filtro">Limpiar</a>
         </form>
 
         {{-- botones para agregar producto y generar reporte --}}
