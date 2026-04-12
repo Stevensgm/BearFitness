@@ -62,7 +62,7 @@
         </div>
     </form>
 
-     {{-- validación de errores --}}
+     {{-- Retroalimentación al usuario --}}
        @if ($errors->any())
         <div class="alert alert-danger">
          <ul>

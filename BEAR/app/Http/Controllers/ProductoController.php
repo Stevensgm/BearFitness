@@ -11,33 +11,37 @@ use Illuminate\Database\QueryException;
 class ProductoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de productos, con opciones de filtrado por categoría, stock y búsqueda por nombre.
      */
     public function index(Request $request)
     {
-        //
+        // obtener todas las categorías para el filtro
         $categorias = Categoria::all();
+
         // preparar la consulta base
         $query=Producto::query();
+
         // filtrar por categoria
         if($request->filled('categoria')) {
             $query->where('id_categoria', $request->categoria);
         }
+
         // filtrar por stock
         if($request->stock ==('con')) {
             $query->where('stock', '>', 0);
         } elseif($request->stock ==('sin')) {
             $query->where('stock', '=', 0);
         }
+
         // filtrar por nombre
         if($request->filled('buscar')) {
             $query->where('nombre', 'like', '%' . $request->buscar . '%');
         }
+
         // ordenar y paginar
-        
         $productos = $query->orderBy('id', 'desc')->paginate(4);
 
-
+        // mostrar la vista con los productos y las categorías
         return view('producto.index', compact('productos', 'categorias'));
     }
 
@@ -46,10 +50,12 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        // obtener las categorias para el select
         $categorias = Categoria::orderBy('id', 'desc')
         ->select('categorias.id', 'categorias.nombre')
         ->get();
+
+        // mostrar la vista de creación con las categorías
         return view('producto.create', compact('categorias'));
     }
 
@@ -111,7 +117,15 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         // Validar los datos del formulario
-        request()->validate();
+        request()->validate([
+            'id_categoria' => 'required',
+            'nombre'=>'required',
+            'descripcion' => 'nullable',
+            'precio' => 'required',
+            'precio_venta' => 'required',
+            'stock' => 'required',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
         // Manejar la imagen
         if ($request->hasFile('imagen')) {
@@ -125,9 +139,8 @@ class ProductoController extends Controller
             // Guardar la nueva imagen
             $imagen = $request->file('imagen');
 
-            // la imagen se guarda en la carpeta 'public/img' y se obtiene su nombre
-            $nombreImagen = time().'_'.$imagen->getClientOriginalName();
-            $imagen->move(public_path('img'), $nombreImagen);
+            // la imagen se guarda en la carpeta 'public/productos' y se obtiene su nombre
+            $nombreImagen = $request->file('imagen')->store('productos', 'public');
         } else {
 
             // Si no se sube una nueva imagen, mantener la imagen existente
@@ -152,7 +165,13 @@ class ProductoController extends Controller
     {
         // Intentar eliminar el producto y manejar posibles excepciones
         try{
-        
+            // Verificar si el producto tiene una imagen existente y eliminarla
+            if ($producto->imagen) {
+                // Eliminar la imagen del producto
+                Storage::disk('public')->delete($producto->imagen);
+            }
+
+            // Eliminar el producto de la base de datos
             $producto->delete();
 
             // Redirigir al usuario con un mensaje de éxito

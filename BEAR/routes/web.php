@@ -9,10 +9,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Rutas para las categorías y productos utilizando controladores de recursos
 Route::resource('/categoria',CategoriaController::class )->parameters(["categoria"=>"categoria"]);
 
 Route::resource('/producto',ProductoController::class );
 
+
+// Ruta para generar el PDF de productos
 Route::get('/pdf/productos', [PdfController::class, 'pdfProductos'])->name('pdf.productos');
 
 Route::get('/hola', function () {

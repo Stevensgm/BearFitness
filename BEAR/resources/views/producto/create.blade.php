@@ -8,15 +8,22 @@
 @section('contenido')
 <div class= "container-formulario">
 <div class="card formulario">
+
+    {{-- Título del formulario --}}
     <h2>Crear Nuevo Producto</h2>
+
+    {{-- Formulario para crear un nuevo producto --}}
     <form action="{{route('producto.store')}}" enctype="multipart/form-data" method="POST">
+
         {{-- agregar directica para qu se genere un token --}}
         @csrf
+
         <!-- Campo Nombre -->
         <div class="form-group">
             <label for="nombre">Nombre del Producto</label>
             <input type="text" id="nombre" name="nombre" required>
         </div>
+
         <!-- Campo Descripción -->
         <div class="form-group">
             <label for="descripcion">Descripción</label>
@@ -28,21 +35,25 @@
             <label for="precio">Precio</label>
             <input type="number" id="precio" name="precio" required>
         </div>
+
          <!-- Campo Precio Venta -->
          <div class="form-group">
             <label for="precio_venta">Precio de Venta</label>
             <input type="number" id="precio_venta" name="precio_venta" required>
         </div>
+
          <!-- Campo Stock-->
          <div class="form-group">
             <label for="stock">Stock</label>
             <input type="number" id="stock" name="stock" required>
         </div>
+
         <!-- Campo imagen -->
         <div class="form-group">
             <label for="imagen">Imagen</label>
            <input type="file" id="imagen" name= "imagen">
         </div>
+
         <!-- Campo Categoria -->
         <div class="form-group">
             <label for="categoria">Categoria</label>
@@ -53,12 +64,15 @@
                @endforeach
              </select>
         </div>
+
         <!-- Botón Guardar -->
         <div class="form-group">
             <button type="submit">Guardar Producto</button>
         </div>
+
     </form>
-     {{-- agrega div para ver la validadion --}}
+
+     {{-- Retroalimentación al usuario --}}
        @if ($errors->any())
         <div class="alert alert-danger">
          <ul>
@@ -69,7 +83,14 @@
         </div>
         @endif
 
-        {{--  --}}
+        @if (session('success'))
+        <div class="alert alert-success">
+            <ul>@foreach (session('success') as $message)
+                <li>{{ $message }}</li>
+            @endforeach
+        </ul>
+        @endif
+        
 </div>
 </div>
 @endsection
