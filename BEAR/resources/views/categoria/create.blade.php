@@ -6,11 +6,26 @@
 @endsection
 
 @section("contenido")
+
+    {{-- realimentacion al usuario --}}
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
  {{-- mostrar formulario para crear nueva categoria --}}
   <div class= "container-formulario">
     <div class="card formulario">
         <h2>Crear Nueva Categoría</h2>
         <form action="{{route('categoria.store')}}" method="POST">
+
             {{-- agregar directica para qu se genere un token --}}
             @csrf
             <!-- Campo Nombre -->
@@ -36,6 +51,7 @@
                 <button type="submit">Guardar Categoría</button>
             </div>
         </form>
+
         {{-- agrega div para ver la validacion --}}
        @if ($errors->any())
         <div class="alert alert-danger">
@@ -46,6 +62,14 @@
         </ul>
         </div>
         @endif
+        @if (session('success'))
+        <div class="alert alert-success">
+            <ul>@foreach (session('success') as $message)
+                <li>{{ $message }}</li>
+            @endforeach</ul>
+        </div>
+        @endif
+
     </div>
     
     </div>

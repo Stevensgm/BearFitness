@@ -84,7 +84,7 @@ class ProductoController extends Controller
     }
 
     /**
-     *  muestra un producto específico.
+     *  Muestra un producto específico.
      */
     public function show(Producto $producto)
     {
@@ -92,53 +92,81 @@ class ProductoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar un producto específico.
      */
     public function edit(Producto $producto)
     {
-        //
+        // obtener las categorias para el select
+        $categorias = Categoria::orderBy('id', 'desc')
+        ->select('categorias.id', 'categorias.nombre')
+        ->get();
+
+        // mostrar la vista de edición con el producto y las categorías
+        return view('producto.edit', compact('categorias','producto'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un producto específico en la base de datos.
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        // Validar los datos del formulario
         request()->validate();
 
+        // Manejar la imagen
         if ($request->hasFile('imagen')) {
+
+            // Verificar si el producto tiene una imagen existente y eliminarla
             if ($producto->imagen&& file_exists(public_path('img/' . $producto->imagen))) {
                 // Eliminar la imagen anterior
-                    unlink(public_path('img/' . $producto->imagen));
-                }
+                unlink(public_path('img/' . $producto->imagen));
+            }
             
+            // Guardar la nueva imagen
             $imagen = $request->file('imagen');
+
+            // la imagen se guarda en la carpeta 'public/img' y se obtiene su nombre
             $nombreImagen = time().'_'.$imagen->getClientOriginalName();
             $imagen->move(public_path('img'), $nombreImagen);
         } else {
+
+            // Si no se sube una nueva imagen, mantener la imagen existente
             $nombreImagen = $producto->imagen;
         }
+
+        // Actualizar los datos del producto
         $data=$request->except('imagen');
         $data['imagen']=$nombreImagen;
 
+        // Guardar los cambios en la base de datos
         $producto->update($data);
+
+        // Redirigir al usuario con un mensaje de éxito
         return redirect()->route('producto.index')->with('success', 'Producto actualizado exitosamente.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un producto específico de la base de datos.
      */
     public function destroy(Producto $producto)
     {
-        //
+        // Intentar eliminar el producto y manejar posibles excepciones
         try{
+        
             $producto->delete();
+
+            // Redirigir al usuario con un mensaje de éxito
             return redirect()->route('producto.index')->with('success', 'Producto eliminado exitosamente.');
         }catch(QueryException $e){
-        if($e->getCode() === '23000'){
-            return redirect()->back()->with('error', 'No se puede eliminar el producto porque tiene registros relacionados.');
-        }
+
+            // Verificar si el error es debido a una restricción de clave foránea (código 23000)
+            if($e->getCode() === '23000'){
+            
+                // Redirigir al usuario con un mensaje de error indicando que el producto no se puede eliminar debido a registros relacionados
+                return redirect()->back()->with('error', 'No se puede eliminar el producto porque tiene registros relacionados.');
+            }
+
+            // Redirigir al usuario con un mensaje de error genérico para otros tipos de errores
             return redirect()->back()->with('error', 'Ocurrió un error inesperado al eliminar el producto.');
         }
     }

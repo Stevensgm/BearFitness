@@ -9,11 +9,13 @@
         @csrf
         {{-- agregar metodo patch --}}
         @method('PATCH')
+
         <!-- Campo Nombre -->
         <div class="form-group">
             <label for="nombre">Nombre de la Producto</label>
             <input type="text" id="nombre" name="nombre"  required value={{$producto->nombre}}>
         </div>
+
         <!-- Campo Descripción -->
         <div class="form-group">
             <label for="descripcion">Descripción</label>
@@ -25,21 +27,25 @@
             <label for="precio">Precio</label>
             <input type="number" id="precio" name="precio" required value={{$producto->precio}}>
         </div>
+
          <!-- Campo Precio Venta -->
          <div class="form-group">
             <label for="precio_venta">Precio de Venta</label>
             <input type="number" id="precio_venta" name="precio_venta" required value={{$producto->precio_venta}}>
         </div>
+
          <!-- Campo Stock-->
          <div class="form-group">
             <label for="stock">Stock</label>
             <input type="number" id="stock" name="stock" required value={{$producto->stock}}>
         </div>
+
         <!-- Campo imagen -->
         <div class="form-group">
             <label for="imagen">Imagen</label>
            <input type="file" id="imagen" name= "imagen">
         </div>
+
         <!-- Campo Categoria -->
         <div class="form-group">
             <label for="categoria">Categoria</label>
@@ -55,16 +61,27 @@
             <button type="submit">Guardar Producto</button>
         </div>
     </form>
-     {{-- agrega div para ver la validadion --}}
+
+     {{-- validación de errores --}}
        @if ($errors->any())
         <div class="alert alert-danger">
          <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
-        </ul>
+            </ul>
         </div>
         @endif
-</div>
+
+        @if (session('success'))
+        <div class="alert alert-success">
+            <ul>@foreach (session('success') as $message)
+                <li>{{ $message }}</li>
+            @endforeach
+            </ul>
+        </div>
+        @endif
+
+    
 </div>
 @endsection

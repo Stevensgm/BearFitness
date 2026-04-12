@@ -114,7 +114,7 @@ Productos
           
        </tbody>
    </table>
-    
+
     </div>
 </section>
 @endsection
