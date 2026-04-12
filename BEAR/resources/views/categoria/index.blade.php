@@ -5,6 +5,7 @@ Categorias
 @endsection
 
 @section("contenido")
+
     {{--realimetacion del usuario --}}
     @if (session('error'))
         <div class="alert alert-danger">
@@ -16,12 +17,26 @@ Categorias
             {{ session('success') }}
         </div>
     @endif
+
 <section class="container-tabla">
     <h2 class="titulo-tabla"> Categorias</h2>
 
     <nav class="nav-botones">
+
+        {{-- formulario de filtros --}}
+        <form action="{{route('categoria.index')}}"  method="GET" class="form-filtros">
+
+            {{--filtro por nombre--}}
+            <input type="text" name="buscar" placeholder="Buscar categoria..." value="{{ request('buscar') }}" class="filtro-input">
+                <button type="submit" class="nav-link btn-filtro">Filtrar</button>
+                
+            {{-- borrar filtros --}}
+            <a href="{{ route('categoria.index') }}" class="nav-link btn-filtro">Limpiar</a>
+
+        </form>
+
+        {{-- agregar categoria --}}
         <ul class="nav-menu">      
-      
             <li class="nav-item">
                 <a href="{{route('categoria.create')}}" class="nav-link btn-agregar">Agregar Categoria</a>
             </li>      
@@ -64,7 +79,7 @@ Categorias
                
                     <form action="{{route('categoria.destroy',$categoria)}}" method="POST" onsubmit="return confimarEliminacion()">
 
-                    {{-- permite gemrar el token para enviar por post --}}
+                    {{-- permite generar el token para enviar por post --}}
                     @csrf
                     {{-- agregar metodo delete --}}
                     @method('DELETE')

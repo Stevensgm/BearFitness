@@ -10,17 +10,28 @@ use Illuminate\Database\QueryException;
 class CategoriaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de categorías ordenadas por id descendente y paginadas, con opciones para crear, editar y eliminar categorías.
      */
     public function index()
     {
-        // obtener las categorias ordenadas por id descendente y paginadas
-        $categorias=Categoria::orderBy("id","DESC")->paginate(5);
+        // preparar la consulta base
+        $query=Categoria::query();
+
+        // aplicar filtro si se proporciona un término de búsqueda
+        if ($buscar = request('buscar')) {
+            $query->where('nombre', 'like', "%{$buscar}%");
+        }
+
+
+        // ordenar y paginar
+        $categorias=$query->orderBy("id","DESC")->paginate(5);
+
+        // mostrar la vista con las categorias
         return view("categoria.index",compact("categorias"));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para crear una nueva categoría.
      */
     public function create()
     {
@@ -51,7 +62,7 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para editar una categoría existente, cargando los datos de la categoría seleccionada.
      */
     public function edit( Categoria $categoria)
     {
@@ -62,7 +73,7 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza una categoría existente en la base de datos después de validar los datos del formulario.
      */
     public function update(CategoriaRequest $request, Categoria $categoria)
     {
@@ -73,7 +84,7 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una categoría de la base de datos, manejando posibles errores si la categoría tiene productos asociados.
      */
     public function destroy(Categoria $categoria)
     {
