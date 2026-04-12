@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bear Fitness</title>
+    <link rel="icon" href="img/oso log.png" type="image/png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="header" id="inicio">
+
+        <nav class="contenedor-nav">
+            <div class="contenedor-logo">
+                <img src="img/oso log.png" alt="logo" class="contenedor-img">
+            </div>
+            <ul class="nav-lista">
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#nosotros">Sobre nosotros</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+        </nav>
+
+        <div class="texto-header">
+            <h1>Bear Fitness</h1>
+            <h3>No Pain, No Gain</h3>
+            <a href="#productos" class="btn-cta">Ver Productos</a>
+        </div>
+
+    </header>
+
+    <section class="contenedor productos" id="productos">
+        <h2>Productos</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icono">🏋️</div>
+                <h3>Suplementos</h3>
+                <p>Proteínas, creatina y pre-entrenos para maximizar tu rendimiento.</p>
+                <a href="#" class="btn-card">Ver más</a>
+            </div>
+            <div class="card">
+                <div class="card-icono">👕</div>
+                <h3>mancuernas</h3>
+                <p>Pesas de diferente tipo de peso</p>
+                <a href="#" class="btn-card">Ver más</a>
+            </div>
+            <div class="card">
+                <div class="card-icono">🥊</div>
+                <h3>Rutinas</h3>
+                <p>para mejorar tu habito.</p>
+                <a href="#" class="btn-card">Ver más</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="contenedor sobre-nosotros" id="nosotros">
+        <div class="nosotros-contenido">
+            <div class="nosotros-texto">
+                <h2>Sobre Nosotros</h2>
+                <p>En <strong>Bear Fitness</strong> creemos que cada persona lleva una bestia dentro. Desde 2018 ayudamos a atletas y personas del fitness a alcanzar su máximo potencial.</p>
+                <p>Nuestro lema es claro: <em>No Pain, No Gain</em>. Los resultados se ganan con esfuerzo y disciplina.</p>
+                <ul>
+                    <li>✅ +5 años de experiencia</li>
+                    <li>✅ +10.000 clientes satisfechos</li>
+                    <li>✅ Productos de calidad certificada</li>
+                </ul>
+            </div>
+            <div class="nosotros-imagen">
+                <img src="img/oso log.png" alt="Bear Fitness">
+            </div>
+        </div>
+    </section>
+
+    <section class="contenedor testimonios" id="testimonios">
+        <h2>Testimonios</h2>
+        <div class="testimonios-grid">
+            <div class="testimonio-card">
+                <p>"Las mejores maquinas para entrenar."</p>
+                <strong>Juan Martínez</strong>
+            </div>
+            <div class="testimonio-card">
+                <p>"las proteinas de muy alta calidad."</p>
+                <strong>Laura Pérez</strong>
+            </div>
+            <div class="testimonio-card">
+                <p>"El servicio al cliente es excelente. Me ayudaron a elegir el plan perfecto para mis metas."</p>
+                <strong>Carlos Rodríguez</strong>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contacto">
+        <div class="footer-contenido">
+            <div>
+                <img src="img/oso log.png" alt="logo" class="footer-logo">
+                <p>No Pain, No Gain.</p>
+            </div>
+            <div>
+                <h4>Contacto</h4>
+                <p>📧 info@bearfitness.com</p>
+                <p>📞 +57 300 123 4567</p>
+                <p>📍 Cali, Valle del Cauca</p>
+            </div>
+            <div>
+                <h4>Síguenos</h4>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">YouTube</a>
+            </div>
+        </div>
+        <p class="footer-bottom">&copy; 2025 Bear Fitness. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const lista = document.querySelector('.nav-lista');
+            lista.classList.toggle('activo');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
