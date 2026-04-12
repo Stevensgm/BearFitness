@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaRequest;
+use Illuminate\Database\QueryException;
 
 class CategoriaController extends Controller
 {
