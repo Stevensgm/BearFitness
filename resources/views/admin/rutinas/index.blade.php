@@ -6,7 +6,7 @@
     <h2>📅 Rutinas Semanales</h2>
     <div class="acciones">
         <a href="{{ route('admin.rutinas.create') }}" class="btn btn-primary">+ Agregar</a>
-        <a href="{{ route('admin.rutinas.pdf', request()->query()) }}" class="btn btn-secondary">📄 PDF</a>
+        <a href="{{ route('admin.rutinas.pdf', request()->query()) }}" class="btn btn-secondary" target="_blank">📄 PDF</a>
     </div>
 </div>
 
@@ -15,14 +15,14 @@
     <select name="dia">
         <option value="">Todos los días</option>
         @foreach(['lunes','martes','miercoles','jueves','viernes','sabado','domingo'] as $d)
-            <option value="{{ $d }}" {{ request('dia') == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
+        <option value="{{ $d }}" {{ request('dia') == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
         @endforeach
     </select>
     <select name="nivel">
         <option value="">Todos los niveles</option>
         <option value="principiante" {{ request('nivel') == 'principiante' ? 'selected' : '' }}>Principiante</option>
-        <option value="intermedio"   {{ request('nivel') == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
-        <option value="avanzado"     {{ request('nivel') == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
+        <option value="intermedio" {{ request('nivel') == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
+        <option value="avanzado" {{ request('nivel') == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
     </select>
     <button type="submit" class="btn btn-primary">Filtrar</button>
     <a href="{{ route('admin.rutinas.index') }}" class="btn btn-secondary">Limpiar</a>
@@ -50,7 +50,7 @@
                 <td><span class="badge badge-info">{{ ucfirst($rutina->dia) }}</span></td>
                 <td>
                     @php
-                        $colores = ['principiante'=>'badge-success','intermedio'=>'badge-info','avanzado'=>'badge-danger'];
+                    $colores = ['principiante'=>'badge-success','intermedio'=>'badge-info','avanzado'=>'badge-danger'];
                     @endphp
                     <span class="badge {{ $colores[$rutina->nivel] ?? 'badge-info' }}">
                         {{ ucfirst($rutina->nivel) }}
@@ -66,7 +66,7 @@
                 <td>
                     <div style="display:flex; gap:6px;">
                         <a href="{{ route('admin.rutinas.show', $rutina) }}" class="btn btn-secondary" style="padding:5px 10px;">👁</a>
-                        <a href="{{ route('admin.rutinas.edit', $rutina) }}"  class="btn btn-warning"   style="padding:5px 10px;">✏️</a>
+                        <a href="{{ route('admin.rutinas.edit', $rutina) }}" class="btn btn-warning" style="padding:5px 10px;">✏️</a>
                         <form action="{{ route('admin.rutinas.destroy', $rutina) }}" method="POST"
                             onsubmit="return confirm('¿Eliminar esta rutina?')">
                             @csrf @method('DELETE')

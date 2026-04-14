@@ -7,7 +7,7 @@
     <h2>🏋️ Productos</h2>
     <div class="acciones">
         <a href="{{ route('admin.productos.create') }}" class="btn btn-primary">+ Agregar</a>
-        <a href="{{ route('admin.productos.pdf', request()->query()) }}" class="btn btn-secondary">📄 PDF</a>
+        <a href="{{ route('admin.productos.pdf', request()->query()) }}" class="btn btn-secondary" target="_blank">📄 PDF</a>
     </div>
 </div>
 
