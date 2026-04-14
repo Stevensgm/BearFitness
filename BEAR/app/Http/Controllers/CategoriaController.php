@@ -6,12 +6,29 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Routing\Controller;
 
 class CategoriaController extends Controller
 {
     /**
      * Muestra una lista de categorías ordenadas por id descendente y paginadas, con opciones para crear, editar y eliminar categorías.
      */
+
+    public function __construct()
+    {
+        // Permiso para listar categorías
+        $this->middleware('can:categoria.index')->only('index');
+
+        // Permiso para crear categorías
+        $this->middleware('can:categoria.create')->only(['create', 'store']);
+
+        // Permiso para actualizar categorías
+        $this->middleware('can:categoria.update')->only(['edit', 'update']);
+
+        // Permiso para eliminar categorías
+        $this->middleware('can:categoria.destroy')->only('destroy');
+    }
+
     public function index()
     {
         // preparar la consulta base
@@ -66,7 +83,7 @@ class CategoriaController extends Controller
      */
     public function edit( Categoria $categoria)
     {
-        //
+        // obtener la categoria por su id
         $categoria=Categoria::findOrFail($id);
         return view("categoria.edit",["categoria"=>$categoria]);
 

@@ -36,10 +36,13 @@ Categorias
         </form>
 
         {{-- agregar categoria --}}
-        <ul class="nav-menu">      
+        <ul class="nav-menu">
+            
+            @can('categoria.create')
             <li class="nav-item">
                 <a href="{{route('categoria.create')}}" class="nav-link btn-agregar">Agregar Categoria</a>
-            </li>      
+            </li>
+            @endcan
          
         </ul>
     </nav>
