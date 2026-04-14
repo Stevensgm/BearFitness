@@ -7,12 +7,30 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductoRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Routing\Controller;
 
 class ProductoController extends Controller
 {
     /**
-     * Muestra una lista de productos, con opciones de filtrado por categoría, stock y búsqueda por nombre.
+     * Constructor del controlador que aplica middleware de permisos para controlar el acceso a las acciones del controlador según los permisos definidos en el sistema.
+     * Aplica middleware de permisos para controlar el acceso a las acciones del controlador según los permisos definidos en el sistema.
+     * 
      */
+    public function __construct()
+    {
+        // Permiso para listar productos
+        $this->middleware('can:producto.index')->only('index');
+
+        // Permiso para crear productos
+        $this->middleware('can:producto.create')->only(['create', 'store']);
+
+        // Permiso para actualizar productos
+        $this->middleware('can:producto.update')->only(['edit', 'update']);
+
+        // Permiso para eliminar productos
+        $this->middleware('can:producto.destroy')->only('destroy');
+    }
+
     public function index(Request $request)
     {
         // obtener todas las categorías para el filtro

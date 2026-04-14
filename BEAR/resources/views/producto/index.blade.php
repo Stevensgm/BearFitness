@@ -42,10 +42,14 @@ Productos
         {{-- botones para agregar producto y generar reporte --}}
         <ul class="nav-menu">
             
+            {{-- botón para agregar producto --}}
+            @can('producto.create')
             <li class="nav-item">
                 <a href="{{route('producto.create')}}" class="nav-link btn-agregar">Agregar Producto</a>
             </li>
-            
+            @endcan
+
+            {{-- botón para generar reporte PDF --}}
             <li class="nav-item">
                 <a href="{{route('pdf.productos')}}" class="nav-link btn-agregar">Generar Reporte PDF</a>
             </li>
