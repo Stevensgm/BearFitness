@@ -32,7 +32,7 @@
             <!-- PERFIL -->
             <div class="element-slidebar">
             <div class="element-slidebar-btn profile">
-            <span><img src="{{asset('img/face3.png')}}" alt="avatar"></span>
+            <span><img src="{{asset('img/user.png')}}" alt="avatar"></span>
             <p>user</p>
             </div>
 
