@@ -6,13 +6,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\VentaController;
 
-// Aquí es donde puedes registrar las rutas web para tu aplicación. Estas rutas son cargadas por el RouteServiceProvider dentro de un grupo que contiene el middleware "web".
-Route::get('/', function () {
 
-    // Esta ruta responde a la URL raíz ("/") y devuelve la vista "welcome". Es común tener esta ruta como la página de inicio de la aplicación.
-    return view('welcome');
-});
+
+
+// Ruta para la página de bienvenida
+Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
+
+// Ruta para almacenar una nueva venta
+Route::post('/ventas',[VentaController::class,'store'])->name('ventas.store');
 
 // Ruta para el dashboard, protegida por autenticación y verificación de correo electrónico
 Route::get('/dashboard', function () {
