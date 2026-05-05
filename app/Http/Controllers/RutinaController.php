@@ -37,13 +37,23 @@ class RutinaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nombre'            => 'required|max:150',
-            'descripcion'       => 'nullable',
-            'dia'               => 'required|in:lunes,martes,miercoles,jueves,viernes,sabado,domingo',
-            'nivel'             => 'required|in:principiante,intermedio,avanzado',
-            'duracion_minutos'  => 'required|integer|min:1',
-            'grupo_muscular'    => 'nullable|max:100',
+            'nombre'           => 'required|max:150',
+            'descripcion'      => 'nullable',
+            'dia'              => 'required|in:lunes,martes,miercoles,jueves,viernes,sabado,domingo',
+            'nivel'            => 'required|in:principiante,intermedio,avanzado',
+            'duracion_minutos' => 'required|integer|min:1',
+            'grupo_muscular'   => 'nullable|max:100',
+            'imagen'           => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombre = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('img/rutinas'), $nombre);
+            $data['imagen'] = $nombre;
+        } else {
+            $data['imagen'] = null;
+        }
 
         $data['activo'] = $request->has('activo') ? true : false;
 
@@ -66,13 +76,26 @@ class RutinaController extends Controller
     public function update(Request $request, Rutina $rutina)
     {
         $data = $request->validate([
-            'nombre'            => 'required|max:150',
-            'descripcion'       => 'nullable',
-            'dia'               => 'required|in:lunes,martes,miercoles,jueves,viernes,sabado,domingo',
-            'nivel'             => 'required|in:principiante,intermedio,avanzado',
-            'duracion_minutos'  => 'required|integer|min:1',
-            'grupo_muscular'    => 'nullable|max:100',
+            'nombre'           => 'required|max:150',
+            'descripcion'      => 'nullable',
+            'dia'              => 'required|in:lunes,martes,miercoles,jueves,viernes,sabado,domingo',
+            'nivel'            => 'required|in:principiante,intermedio,avanzado',
+            'duracion_minutos' => 'required|integer|min:1',
+            'grupo_muscular'   => 'nullable|max:100',
+            'imagen'           => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            if ($rutina->imagen && file_exists(public_path('img/rutinas/' . $rutina->imagen))) {
+                unlink(public_path('img/rutinas/' . $rutina->imagen));
+            }
+            $imagen = $request->file('imagen');
+            $nombre = time() . '_' . $imagen->getClientOriginalName();
+            $imagen->move(public_path('img/rutinas'), $nombre);
+            $data['imagen'] = $nombre;
+        } else {
+            $data['imagen'] = $rutina->imagen;
+        }
 
         $data['activo'] = $request->has('activo') ? true : false;
 
@@ -84,6 +107,10 @@ class RutinaController extends Controller
 
     public function destroy(Rutina $rutina)
     {
+        if ($rutina->imagen && file_exists(public_path('img/rutinas/' . $rutina->imagen))) {
+            unlink(public_path('img/rutinas/' . $rutina->imagen));
+        }
+
         $rutina->delete();
 
         return redirect()->route('admin.rutinas.index')

@@ -28,7 +28,7 @@ class ProductoController extends Controller
             }
         }
 
-        $productos = $query->orderBy('id', 'desc')->paginate(8)->withQueryString();
+        $productos = $query->orderBy('id', 'desc')->paginate(1)->withQueryString();
 
         return view('admin.productos.index', compact('productos'));
     }

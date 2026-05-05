@@ -8,7 +8,7 @@
         <a href="{{ route('admin.rutinas.index') }}" class="btn btn-secondary">← Volver</a>
     </div>
     <div class="card">
-        <form action="{{ route('admin.rutinas.update', $rutina) }}" method="POST">
+        <form action="{{ route('admin.rutinas.update', $rutina) }}" method="POST" enctype="multipart/form-data">
             @csrf @method('PATCH')
 
             <div class="form-row">
@@ -21,7 +21,7 @@
                     <label>Día *</label>
                     <select name="dia" required>
                         @foreach(['lunes','martes','miercoles','jueves','viernes','sabado','domingo'] as $d)
-                            <option value="{{ $d }}" {{ old('dia', $rutina->dia) == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
+                        <option value="{{ $d }}" {{ old('dia', $rutina->dia) == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -37,8 +37,8 @@
                     <label>Nivel *</label>
                     <select name="nivel" required>
                         <option value="principiante" {{ old('nivel', $rutina->nivel) == 'principiante' ? 'selected' : '' }}>Principiante</option>
-                        <option value="intermedio"   {{ old('nivel', $rutina->nivel) == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
-                        <option value="avanzado"     {{ old('nivel', $rutina->nivel) == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
+                        <option value="intermedio" {{ old('nivel', $rutina->nivel) == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
+                        <option value="avanzado" {{ old('nivel', $rutina->nivel) == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -47,9 +47,20 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Grupo muscular</label>
-                <input type="text" name="grupo_muscular" value="{{ old('grupo_muscular', $rutina->grupo_muscular) }}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Grupo muscular</label>
+                    <input type="text" name="grupo_muscular" value="{{ old('grupo_muscular', $rutina->grupo_muscular) }}">
+                </div>
+                <div class="form-group">
+                    <label>Imagen del ejercicio</label>
+                    @if($rutina->imagen)
+                    <img src="{{ asset('img/rutinas/' . $rutina->imagen) }}"
+                        style="height:70px; border-radius:6px; display:block; margin-bottom:8px;">
+                    @endif
+                    <input type="file" name="imagen" accept="image/*">
+                    <small style="color:#888;">Dejar vacío para conservar la imagen actual</small>
+                </div>
             </div>
 
             <div class="form-group">

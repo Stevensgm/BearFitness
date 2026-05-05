@@ -8,7 +8,7 @@
         <a href="{{ route('admin.rutinas.index') }}" class="btn btn-secondary">← Volver</a>
     </div>
     <div class="card">
-        <form action="{{ route('admin.rutinas.store') }}" method="POST">
+        <form action="{{ route('admin.rutinas.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-row">
                 <div class="form-group">
@@ -21,7 +21,7 @@
                     <select name="dia" required>
                         <option value="">Seleccionar...</option>
                         @foreach(['lunes','martes','miercoles','jueves','viernes','sabado','domingo'] as $d)
-                            <option value="{{ $d }}" {{ old('dia') == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
+                        <option value="{{ $d }}" {{ old('dia') == $d ? 'selected' : '' }}>{{ ucfirst($d) }}</option>
                         @endforeach
                     </select>
                     @error('dia') <p class="error">{{ $message }}</p> @enderror
@@ -38,8 +38,8 @@
                     <label>Nivel *</label>
                     <select name="nivel" required>
                         <option value="principiante" {{ old('nivel') == 'principiante' ? 'selected' : '' }}>Principiante</option>
-                        <option value="intermedio"   {{ old('nivel') == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
-                        <option value="avanzado"     {{ old('nivel') == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
+                        <option value="intermedio" {{ old('nivel') == 'intermedio'   ? 'selected' : '' }}>Intermedio</option>
+                        <option value="avanzado" {{ old('nivel') == 'avanzado'     ? 'selected' : '' }}>Avanzado</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -48,10 +48,17 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Grupo muscular</label>
-                <input type="text" name="grupo_muscular" value="{{ old('grupo_muscular') }}"
-                    placeholder="Ej: Pecho, Espalda, Piernas...">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Grupo muscular</label>
+                    <input type="text" name="grupo_muscular" value="{{ old('grupo_muscular') }}"
+                        placeholder="Ej: Pecho, Espalda, Piernas...">
+                </div>
+                <div class="form-group">
+                    <label>Imagen del ejercicio</label>
+                    <input type="file" name="imagen" accept="image/*">
+                    @error('imagen') <p class="error">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <div class="form-group">

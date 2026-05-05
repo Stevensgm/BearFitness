@@ -11,6 +11,7 @@ class Rutina extends Model
 
     protected $fillable = [
         'nombre',
+        'imagen',
         'descripcion',
         'dia',
         'nivel',
